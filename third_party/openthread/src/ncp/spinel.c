@@ -1645,6 +1645,60 @@ const char *spinel_capability_to_cstr(spinel_capability_t capability)
     return spinel_to_cstr(spinel_cap_cstr, capability);
 }
 
+//missing functions used in SpinelNCPInstance.cpp
+const char *spinel_radio_link_to_cstr(uint32_t radio)
+{
+    const char *ret = "UNKNOWN";
+
+    switch (radio)
+    {
+    case SPINEL_RADIO_LINK_IEEE_802_15_4:
+        ret = "IEEE_802_15_4";
+        break;
+
+    case SPINEL_RADIO_LINK_TREL_UDP6:
+        ret = "TREL_UDP6";
+        break;
+
+    default:
+        break;
+    }
+
+    return ret;
+}
+
+const char *spinel_link_metrics_status_to_cstr(uint8_t status)
+{
+    const char* ret = "UNKNOWN";
+
+    switch(status)
+    {
+    case SPINEL_LINK_METRICS_STATUS_SUCCESS:
+        ret = "SUCCESS";
+        break;
+    case SPINEL_LINK_METRICS_STATUS_CANNOT_SUPPORT_NEW_SERIES:
+        ret = "CANNOT_SUPPORT_NEW_SERIES";
+        break;
+    case SPINEL_LINK_METRICS_STATUS_SERIESID_ALREADY_REGISTERED:
+        ret = "SERIESID_ALREADY_REGISTERED";
+        break;
+    case SPINEL_LINK_METRICS_STATUS_SERIESID_NOT_RECOGNIZED:
+        ret = "SERIESID_NOT_RECOGNIZED";
+        break;
+    case SPINEL_LINK_METRICS_STATUS_NO_MATCHING_FRAMES_RECEIVED:
+        ret = "NO_MATCHING_FRAMES_RECEIVED";
+        break;
+    case SPINEL_LINK_METRICS_STATUS_OTHER_ERROR:
+        ret = "OTHER_ERROR";
+        break;
+    }
+
+    return ret;
+}
+
+//end of missing functions
+
+
 // LCOV_EXCL_STOP
 
 /* -------------------------------------------------------------------------- */
