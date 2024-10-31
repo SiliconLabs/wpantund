@@ -261,7 +261,7 @@ private:
 	void get_prop_OpenThreadSteeringDataAddress(CallbackWithStatusArg1 cb);
 	void get_prop_DatasetActiveTimestamp(CallbackWithStatusArg1 cb);
 	void get_prop_DatasetPendingTimestamp(CallbackWithStatusArg1 cb);
-	void get_prop_DatasetMasterKey(CallbackWithStatusArg1 cb);
+	void get_prop_DatasetNetworkKey(CallbackWithStatusArg1 cb);
 	void get_prop_DatasetNetworkName(CallbackWithStatusArg1 cb);
 	void get_prop_DatasetExtendedPanId(CallbackWithStatusArg1 cb);
 	void get_prop_DatasetMeshLocalPrefix(CallbackWithStatusArg1 cb);
@@ -323,7 +323,7 @@ private:
 	void set_prop_UdpForwardStream(const boost::any &value, CallbackWithStatus cb);
 	void set_prop_DatasetActiveTimestamp(const boost::any &value, CallbackWithStatus cb);
 	void set_prop_DatasetPendingTimestamp(const boost::any &value, CallbackWithStatus cb);
-	void set_prop_DatasetMasterKey(const boost::any &value, CallbackWithStatus cb);
+	void set_prop_DatasetNetworkKey(const boost::any &value, CallbackWithStatus cb);
 	void set_prop_DatasetNetworkName(const boost::any &value, CallbackWithStatus cb);
 	void set_prop_DatasetExtendedPanId(const boost::any &value, CallbackWithStatus cb);
 	void set_prop_DatasetMeshLocalPrefix(const boost::any &value, CallbackWithStatus cb);

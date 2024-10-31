@@ -2583,7 +2583,7 @@ SpinelNCPInstance::regsiter_all_get_handlers(void)
 		SPINEL_PROP_PHY_FREQ, SPINEL_DATATYPE_INT32_S);
 	register_get_handler_spinel_simple(
 		kWPANTUNDProperty_NetworkKey,
-		SPINEL_PROP_NET_MASTER_KEY, SPINEL_DATATYPE_DATA_S);
+		SPINEL_PROP_NET_NETWORK_KEY, SPINEL_DATATYPE_DATA_S);
 	register_get_handler_spinel_simple(
 		kWPANTUNDProperty_NetworkPSKc,
 		SPINEL_PROP_NET_PSKC, SPINEL_DATATYPE_DATA_S);
@@ -3233,8 +3233,8 @@ SpinelNCPInstance::regsiter_all_get_handlers(void)
 		kWPANTUNDProperty_DatasetPendingTimestamp,
 		boost::bind(&SpinelNCPInstance::get_prop_DatasetPendingTimestamp, this, _1));
 	register_get_handler(
-		kWPANTUNDProperty_DatasetMasterKey,
-		boost::bind(&SpinelNCPInstance::get_prop_DatasetMasterKey, this, _1));
+		kWPANTUNDProperty_DatasetNetworkKey,
+		boost::bind(&SpinelNCPInstance::get_prop_DatasetNetworkKey, this, _1));
 	register_get_handler(
 		kWPANTUNDProperty_DatasetNetworkName,
 		boost::bind(&SpinelNCPInstance::get_prop_DatasetNetworkName, this, _1));
@@ -3629,10 +3629,10 @@ SpinelNCPInstance::get_prop_DatasetPendingTimestamp(CallbackWithStatusArg1 cb)
 }
 
 void
-SpinelNCPInstance::get_prop_DatasetMasterKey(CallbackWithStatusArg1 cb)
+SpinelNCPInstance::get_prop_DatasetNetworkKey(CallbackWithStatusArg1 cb)
 {
-	if (mLocalDataset.mMasterKey.has_value()) {
-		cb(kWPANTUNDStatus_Ok, boost::any(mLocalDataset.mMasterKey.get()));
+	if (mLocalDataset.mNetworkKey.has_value()) {
+		cb(kWPANTUNDStatus_Ok, boost::any(mLocalDataset.mNetworkKey.get()));
 	} else {
 		cb(kWPANTUNDStatus_Ok, boost::any(Data()));
 	}
@@ -4224,8 +4224,8 @@ SpinelNCPInstance::regsiter_all_set_handlers(void)
 		kWPANTUNDProperty_DatasetPendingTimestamp,
 		boost::bind(&SpinelNCPInstance::set_prop_DatasetPendingTimestamp, this, _1, _2));
 	register_set_handler(
-		kWPANTUNDProperty_DatasetMasterKey,
-		boost::bind(&SpinelNCPInstance::set_prop_DatasetMasterKey, this, _1, _2));
+		kWPANTUNDProperty_DatasetNetworkKey,
+		boost::bind(&SpinelNCPInstance::set_prop_DatasetNetworkKey, this, _1, _2));
 	register_set_handler(
 		kWPANTUNDProperty_DatasetNetworkName,
 		boost::bind(&SpinelNCPInstance::set_prop_DatasetNetworkName, this, _1, _2));
@@ -4434,7 +4434,7 @@ SpinelNCPInstance::set_prop_NetworkKey(const boost::any &value, CallbackWithStat
 			)
 		));
 	} else {
-		set_spinel_prop(value, cb, SPINEL_PROP_NET_MASTER_KEY, SPINEL_DATATYPE_DATA_C);
+		set_spinel_prop(value, cb, SPINEL_PROP_NET_NETWORK_KEY, SPINEL_DATATYPE_DATA_C);
 	}
 }
 
@@ -4626,12 +4626,12 @@ SpinelNCPInstance::set_prop_DatasetPendingTimestamp(const boost::any &value, Cal
 }
 
 void
-SpinelNCPInstance::set_prop_DatasetMasterKey(const boost::any &value, CallbackWithStatus cb)
+SpinelNCPInstance::set_prop_DatasetNetworkKey(const boost::any &value, CallbackWithStatus cb)
 {
-	Data master_key = any_to_data(value);
+	Data network_key = any_to_data(value);
 
-	if (master_key.size() == NCP_NETWORK_KEY_SIZE) {
-		mLocalDataset.mMasterKey = master_key;
+	if (network_key.size() == NCP_NETWORK_KEY_SIZE) {
+		mLocalDataset.mNetworkKey = network_key;
 		cb(kWPANTUNDStatus_Ok);
 	} else {
 		cb(kWPANTUNDStatus_InvalidArgument);
@@ -5676,7 +5676,7 @@ SpinelNCPInstance::handle_ncp_spinel_value_is(spinel_prop_key_t key, const uint8
 			signal_property_changed(kWPANTUNDProperty_NetworkPSKc, mNetworkPSKc);
 		}
 
-	} else if (key == SPINEL_PROP_NET_MASTER_KEY) {
+	} else if (key == SPINEL_PROP_NET_NETWORK_KEY) {
 		nl::Data network_key(value_data_ptr, value_data_len);
 		if (ncp_state_is_joining_or_joined(get_ncp_state())) {
 			if (network_key != mNetworkKey) {
@@ -7053,7 +7053,7 @@ SpinelNCPInstance::log_spinel_frame(SpinelFrameOrigin origin, const uint8_t *fra
 					// Skip logging any of above properties
 					goto bail;
 
-				case SPINEL_PROP_NET_MASTER_KEY:
+				case SPINEL_PROP_NET_NETWORK_KEY:
 				case SPINEL_PROP_THREAD_ACTIVE_DATASET:
 				case SPINEL_PROP_THREAD_PENDING_DATASET:
 				case SPINEL_PROP_MESHCOP_JOINER_COMMISSIONING:

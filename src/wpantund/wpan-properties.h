@@ -152,7 +152,7 @@
 
 #define kWPANTUNDProperty_DatasetActiveTimestamp                "Dataset:ActiveTimestamp"
 #define kWPANTUNDProperty_DatasetPendingTimestamp               "Dataset:PendingTimestamp"
-#define kWPANTUNDProperty_DatasetMasterKey                      "Dataset:MasterKey"
+#define kWPANTUNDProperty_DatasetNetworkKey                      "Dataset:NetworkKey"
 #define kWPANTUNDProperty_DatasetNetworkName                    "Dataset:NetworkName"
 #define kWPANTUNDProperty_DatasetExtendedPanId                  "Dataset:ExtendedPanId"
 #define kWPANTUNDProperty_DatasetMeshLocalPrefix                "Dataset:MeshLocalPrefix"

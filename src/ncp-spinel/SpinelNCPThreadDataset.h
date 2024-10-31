@@ -66,7 +66,7 @@ public:
 
 	Optional<uint64_t>         mActiveTimestamp;
 	Optional<uint64_t>         mPendingTimestamp;
-	Optional<Data>             mMasterKey;
+	Optional<Data>             mNetworkKey;
 	Optional<std::string>      mNetworkName;
 	Optional<Data>             mExtendedPanId;
 	Optional<struct in6_addr>  mMeshLocalPrefix;

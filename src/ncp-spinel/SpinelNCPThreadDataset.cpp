@@ -38,7 +38,7 @@ ThreadDataset::clear(void)
 {
 	mActiveTimestamp.clear();
 	mPendingTimestamp.clear();
-	mMasterKey.clear();
+	mNetworkKey.clear();
 	mNetworkName.clear();
 	mExtendedPanId.clear();
 	mMeshLocalPrefix.clear();
@@ -65,8 +65,8 @@ ThreadDataset::convert_to_valuemap(ValueMap &map)
 		map[kWPANTUNDProperty_DatasetPendingTimestamp] = mPendingTimestamp.get();
 	}
 
-	if (mMasterKey.has_value()) {
-		map[kWPANTUNDProperty_DatasetMasterKey] = mMasterKey.get();
+	if (mNetworkKey.has_value()) {
+		map[kWPANTUNDProperty_DatasetNetworkKey] = mNetworkKey.get();
 	}
 
 	if (mNetworkName.has_value()) {
@@ -157,9 +157,9 @@ ThreadDataset::convert_to_string_list(std::list<std::string> &list)
 		list.push_back(str);
 	}
 
-	if (mMasterKey.has_value()) {
-		snprintf(str, sizeof(str), "%-32s =  [%s]", kWPANTUNDProperty_DatasetMasterKey,
-			any_to_string(mMasterKey.get()).c_str());
+	if (mNetworkKey.has_value()) {
+		snprintf(str, sizeof(str), "%-32s =  [%s]", kWPANTUNDProperty_DatasetNetworkKey,
+			any_to_string(mNetworkKey.get()).c_str());
 		list.push_back(str);
 	}
 
@@ -306,9 +306,9 @@ ThreadDataset::parse_dataset_entry(const uint8_t *data_in, spinel_size_t data_le
 		}
 		break;
 
-	case SPINEL_PROP_NET_MASTER_KEY:
+	case SPINEL_PROP_NET_NETWORK_KEY:
 		require_action(value_len > 0, bail, ret = kWPANTUNDStatus_Failure);
-		mMasterKey = Data(value_data, value_len);
+		mNetworkKey = Data(value_data, value_len);
 		break;
 
 	case SPINEL_PROP_NET_NETWORK_NAME:
@@ -515,18 +515,18 @@ ThreadDataset::convert_to_spinel_frame(Data &frame, bool include_value)
 		}
 	}
 
-	if (mMasterKey.has_value()) {
+	if (mNetworkKey.has_value()) {
 		if (include_value) {
 			frame.append(SpinelPackData(
 				SPINEL_DATATYPE_STRUCT_S(SPINEL_DATATYPE_UINT_PACKED_S SPINEL_DATATYPE_DATA_S),
-				SPINEL_PROP_NET_MASTER_KEY,
-				mMasterKey.get().data(),
-				mMasterKey.get().size()
+				SPINEL_PROP_NET_NETWORK_KEY,
+				mNetworkKey.get().data(),
+				mNetworkKey.get().size()
 			));
 		} else {
 			frame.append(SpinelPackData(
 				SPINEL_DATATYPE_STRUCT_S(SPINEL_DATATYPE_UINT_PACKED_S),
-				SPINEL_PROP_NET_MASTER_KEY
+				SPINEL_PROP_NET_NETWORK_KEY
 			));
 		}
 	}

@@ -297,7 +297,7 @@ nl::wpantund::SpinelNCPTaskForm::vprocess_event(int event, va_list args)
 			nl::Data data(any_to_data(mOptions[kWPANTUNDProperty_NetworkKey]));
 			mNextCommand = SpinelPackData(
 				SPINEL_FRAME_PACK_CMD_PROP_VALUE_SET(SPINEL_DATATYPE_DATA_S),
-				SPINEL_PROP_NET_MASTER_KEY,
+				SPINEL_PROP_NET_NETWORK_KEY,
 				data.data(),
 				data.size()
 			);
